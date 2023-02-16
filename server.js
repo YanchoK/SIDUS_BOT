@@ -1,18 +1,21 @@
 const express = require('express')
 const app = express()
-const cors=require("cors")
+const cors = require("cors")
 const bot = require('./bot.js')
 const fs = require("fs");
-const joi=require("joi")
+const joi = require("joi")
 // Read the file contents
 const database = JSON.parse(fs.readFileSync("./database.json"));
 
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
 app.use(cors())
 app.use(express.json())
-const port=3000
+const port = 3000
 
 // routes
-app.get('/api', (request, res)=>{
+app.get('/api', (request, res) => {
     res.send('Hello bot API')
 })
 
@@ -26,31 +29,19 @@ app.get('/api', (request, res)=>{
 
 const saveJson = () => fs.writeFileSync("./database.json", JSON.stringify(database));
 
-app.post('/api/register', async (req, res)=>{
-    try{
+app.post('/api/register', async (req, res) => {
+    try {
         // const {email,password,firstName,lastName} = req.body;
-        database.users.push(req.body)
-        await saveJson()
+        await prisma.user.create({
+            data: req.body
+        })
 
-    }catch(err){
-        console.error(err.message)
+    } catch (err) {
+        res.status(400).send(err.message)
     }
 
     res.status(200).send('data saved succesfully')
 })
 
-app.post('/api/login', async (req, res)=>{
-    try{
-        const {email,password} = req.body;
-        if (database.users) {
-            
-        }
 
-    }catch(err){
-        console.error(err.message)
-    }
-
-    res.status(200).send('data saved succesfully')
-})
-
-app.listen(port,console.log(`Server is listenning on http://localhost:${port}/`)) //npm run devStart
+app.listen(port, console.log(`Server is listenning on http://localhost:${port}/`)) //npm run devStart
