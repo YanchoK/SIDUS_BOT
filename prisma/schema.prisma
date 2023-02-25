@@ -22,7 +22,8 @@ model botaccount {
   id       Int       @id @default(autoincrement())
   email    String    @db.VarChar(50)
   password String
-  name     String    @db.VarChar(25)
+  name     String    @db.VarChar(25) @unique
+  cookies  Json?
   user_id  Int?
   user     user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
   message  message[]
@@ -39,11 +40,12 @@ model chaturl {
 model message {
   id             Int         @id @default(autoincrement())
   title          String?     @db.VarChar(50)
-  content        String?
-  timestamp      DateTime?   @default(now()) @db.Timestamp(6)
-  repeating      String?     @default("Does not repeat")
+  content        String
+  timestamp      DateTime   @default(now()) @db.Timestamp(6)
+  repeating      String     @default("Does not repeat")
+  sent           Boolean     @default(false)
   user_id        Int?
-  bot_account_id Int?
+  bot_account_id Int        @default(1)
   chaturl_id     Int?
   botaccount     botaccount? @relation(fields: [bot_account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_botaccount")
   chaturl        chaturl?    @relation(fields: [chaturl_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chaturl")
