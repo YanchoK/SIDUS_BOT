@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model account {
   id         Int          @id @default(autoincrement())
   email      String       @unique @db.VarChar(50)
   password   String
@@ -24,16 +24,16 @@ model botaccount {
   password String
   name     String    @db.VarChar(25) @unique
   cookies  Json?
-  user_id  Int?
-  user     user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  account_id  Int?
+  account     account?     @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
   message  message[]
 }
 
 model chaturl {
   id      Int       @id @default(autoincrement())
   name    String?   @db.VarChar(50)
-  user_id Int?
-  user    user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  account_id Int?
+  account    account?     @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
   message message[]
 }
 
@@ -44,10 +44,10 @@ model message {
   timestamp      DateTime   @default(now()) @db.Timestamp(6)
   repeating      String     @default("Does not repeat")
   sent           Boolean     @default(false)
-  user_id        Int?
+  account_id        Int?
   bot_account_id Int        @default(1)
   chaturl_id     Int?
   botaccount     botaccount? @relation(fields: [bot_account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_botaccount")
   chaturl        chaturl?    @relation(fields: [chaturl_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chaturl")
-  user           user?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  account           account?       @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
 }

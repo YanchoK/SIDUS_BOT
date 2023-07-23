@@ -2,15 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import { sendMessage, openChat } from './bot.js';
 import { PrismaClient } from '@prisma/client';
-import { main } from './scheduler.js';
+import { startSheduler } from './scheduler.js';
 const app = express();
 const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 const port = 3000;
+startSheduler();
 app.post('/api/try', async (req, res) => {
     try {
-        main();
     }
     catch (err) {
         res.status(400).send(err.message);

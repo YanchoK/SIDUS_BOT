@@ -2,10 +2,10 @@
   "name": "messenger-bot-api",
   "version": "1.0.0",
   "description": "Api that can send messages to messenger users",
-  "main": "./dist/src/server.js",
+  "main": "./dist/src/app.js",
   "scripts": {
-    "start": "nodemon dist/server.js",
-    "build": "tsc"
+    "build": "tsc -p . -w",
+    "start": "nodemon --experimental-json-modules dist/app.js"
   },
   "repository": {
     "type": "git",
