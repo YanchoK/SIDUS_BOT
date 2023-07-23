@@ -1,2 +1,4 @@
 /node_modules
 .env
+/organising
+/bot_tests.js

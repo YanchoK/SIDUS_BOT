@@ -1,0 +1,30 @@
+{
+    "chromeDriverPath": "C:\\Program Files (x86)\\chromedriver.exe",
+    "email": "yankostov@gmail.com",
+    "password": "ppaarroollaaa102938@f",
+    "chatURL": "https://www.facebook.com/messages/t/100006795273159",
+    "message": "hmmmmmmm",
+    "messagesCount": 1,
+    "cookie": {
+        "xs": {
+            "domain": ".facebook.com",
+            "expiry": 1708294389,
+            "httpOnly": true,
+            "name": "xs",
+            "path": "/",
+            "sameSite": "None",
+            "secure": true,
+            "value": "2%3A0oSvu75Ztlo"
+        },
+        "c_user": {
+            "domain": ".facebook.com",
+            "expiry": 1708294389,
+            "httpOnly": false,
+            "name": "c_user",
+            "path": "/",
+            "sameSite": "None",
+            "secure": true,
+            "value": "1000067"
+        }
+    }
+}
