@@ -6,6 +6,8 @@ import joi from 'joi';
 import { PrismaClient } from '@prisma/client';
 import { startSheduler } from './scheduler.js';
 import v1UserRouter from './v1/routes/userRoutes.js';
+import v1TaskRouter from './v1/routes/taskRoutes.js';
+import bodyParser from 'body-parser';
 
 // npm start
 // npm run build
@@ -21,8 +23,10 @@ const port: Number = 3000
 // Start checking for new tasks in the DB
 startSheduler()
 
+app.use(bodyParser.json())
 // Register routes
 app.use('/api/v1/users', v1UserRouter);
+app.use('/api/v1/tasks', v1TaskRouter);
 
 // app.post('/api/try', async (req, res) => {
 //     try {

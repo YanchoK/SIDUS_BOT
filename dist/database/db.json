@@ -37,7 +37,7 @@
             "id": 0,
             "name": "Седмична среща",
             "message": "Днес има седмична среща от 19ч в Discord",
-            "datetime:": "Sat Jul 22 2023 19:44:22 GMT+0300",
+            "datetime": "Sat Jul 22 2023 19:44:22 GMT+0300",
             "recurring": "every 1 minute",
             "chat_url": "https://www.facebook.com/messages/t/100006795273159",
             "bot_id": 0
@@ -46,8 +46,25 @@
             "id": 1,
             "name": "",
             "message": "Прегледай задачите",
-            "datetime:": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
             "recurring": "",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": 0
+        },
+        {
+            "id": 2,
+            "message": "Нова задача",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": 0
+        },
+        {
+            "id": 3,
+            "name": "Not new",
+            "message": "Нова задача",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "every 2 h",
             "chat_url": "https://www.facebook.com/messages/t/100006795273159",
             "bot_id": 0
         }
