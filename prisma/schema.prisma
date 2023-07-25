@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model account {
   id         Int          @id @default(autoincrement())
   email      String       @unique @db.VarChar(50)
   password   String
@@ -22,30 +22,32 @@ model botaccount {
   id       Int       @id @default(autoincrement())
   email    String    @db.VarChar(50)
   password String
-  name     String    @db.VarChar(25)
-  user_id  Int?
-  user     user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  name     String    @db.VarChar(25) @unique
+  cookies  Json?
+  account_id  Int?
+  account     account?     @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
   message  message[]
 }
 
 model chaturl {
   id      Int       @id @default(autoincrement())
   name    String?   @db.VarChar(50)
-  user_id Int?
-  user    user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  account_id Int?
+  account    account?     @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
   message message[]
 }
 
 model message {
   id             Int         @id @default(autoincrement())
   title          String?     @db.VarChar(50)
-  content        String?
-  timestamp      DateTime?   @default(now()) @db.Timestamp(6)
-  repeating      String?     @default("Does not repeat")
-  user_id        Int?
-  bot_account_id Int?
+  content        String
+  timestamp      DateTime   @default(now()) @db.Timestamp(6)
+  repeating      String     @default("Does not repeat")
+  sent           Boolean     @default(false)
+  account_id        Int?
+  bot_account_id Int        @default(1)
   chaturl_id     Int?
   botaccount     botaccount? @relation(fields: [bot_account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_botaccount")
   chaturl        chaturl?    @relation(fields: [chaturl_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chaturl")
-  user           user?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  account           account?       @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_account")
 }

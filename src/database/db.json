@@ -1,0 +1,118 @@
+{
+  "user": [
+    {
+      "id": 0,
+      "email": "yankostov@gmail.com",
+      "password": "parola",
+      "name": "Yancho",
+      "role": 0
+    },
+    {
+      "id": 1,
+      "email": "yankostov1@gmail.com",
+      "password": "parola1",
+      "name": "Boby",
+      "role": 1
+    },
+    {
+      "id": 2,
+      "email": "yankostov2@gmail.com",
+      "password": "parola2",
+      "name": "Dodo",
+      "roleId": 1
+    }
+  ],
+  "role": [
+    {
+      "id": 0,
+      "name": "admin"
+    },
+    {
+      "id": 1,
+      "name": "user"
+    }
+  ],
+  "task": [
+    {
+      "id": 0,
+      "name": "Седмична среща",
+      "message": "Днес има седмична среща от 19ч в Discord",
+      "datetime": "Sat Jul 22 2023 19:44:22 GMT+0300",
+      "recurring": "every 1 minute",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": 0
+    },
+    {
+      "id": 1,
+      "name": "",
+      "message": "Прегледай задачите",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": 0
+    },
+    {
+      "id": 2,
+      "name": "Updated ag!",
+      "message": "Нова",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "fffff",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": "0"
+    },
+    {
+      "id": 3,
+      "name": "Not new",
+      "message": "Нова задача",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "every 2 h",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": 0
+    },
+    {
+      "id": 4,
+      "name": "Some new",
+      "message": "Нова задача",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "every 2 h",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": "0"
+    },
+    {
+      "id": 5,
+      "name": "Wh",
+      "message": "Нова задача",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "every 2 h",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": "0"
+    },
+    {
+      "id": 6,
+      "name": "Not newwwww",
+      "message": "Нова задача",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "every 2 h",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": "0"
+    },
+    {
+      "id": 7,
+      "name": "Updated again!",
+      "message": "Нова",
+      "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+      "recurring": "fffff",
+      "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+      "bot_id": "0"
+    }
+  ],
+  "bot": [
+    {
+      "id": 0,
+      "name": "Robin",
+      "email": "",
+      "password": "",
+      "cookies": []
+    }
+  ]
+}

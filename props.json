@@ -7,12 +7,24 @@
     "messagesCount": 1,
     "cookie": {
         "xs": {
+            "domain": ".facebook.com",
+            "expiry": 1708294389,
+            "httpOnly": true,
             "name": "xs",
-            "value": "23%3AJEsjdTIdAd4yLA%3A2%3A1676314518%3A-1%3A5471"
+            "path": "/",
+            "sameSite": "None",
+            "secure": true,
+            "value": "2%3A0oSvu75Ztlo"
         },
         "c_user": {
+            "domain": ".facebook.com",
+            "expiry": 1708294389,
+            "httpOnly": false,
             "name": "c_user",
-            "value": "100006795273159"
+            "path": "/",
+            "sameSite": "None",
+            "secure": true,
+            "value": "1000067"
         }
     }
 }
