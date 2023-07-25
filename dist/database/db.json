@@ -52,12 +52,12 @@
             "bot_id": 0
         },
         {
-            "id": 2,
-            "message": "Нова задача",
+            "name": "Updated ag!",
+            "message": "Нова",
             "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
-            "recurring": "",
+            "recurring": "fffff",
             "chat_url": "https://www.facebook.com/messages/t/100006795273159",
-            "bot_id": 0
+            "bot_id": "0"
         },
         {
             "id": 3,
@@ -67,6 +67,42 @@
             "recurring": "every 2 h",
             "chat_url": "https://www.facebook.com/messages/t/100006795273159",
             "bot_id": 0
+        },
+        {
+            "id": 4,
+            "name": "Somewath new",
+            "message": "Нова задача",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "every 2 h",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": "0"
+        },
+        {
+            "id": 5,
+            "name": "Wh",
+            "message": "Нова задача",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "every 2 h",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": "0"
+        },
+        {
+            "id": 6,
+            "name": "Not newwwww",
+            "message": "Нова задача",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "every 2 h",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": "0"
+        },
+        {
+            "id": 6,
+            "name": "Updated again!",
+            "message": "Нова",
+            "datetime": "Sat Jul 22 2023 19:50:22 GMT+0300",
+            "recurring": "fffff",
+            "chat_url": "https://www.facebook.com/messages/t/100006795273159",
+            "bot_id": "0"
         }
     ],
     "bot": [

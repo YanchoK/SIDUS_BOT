@@ -12,6 +12,10 @@ import bodyParser from 'body-parser';
 // npm start
 // npm run build
 
+
+//TODO: add cookies[] to the bots
+
+
 // use node-cron
 const app = express();
 const prisma = new PrismaClient()

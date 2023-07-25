@@ -1,28 +1,53 @@
 import taskDB from "../database/taskDB.js";
-let newId = 6;
 const UserService = {
     async getAllTasks() {
-        const allUsers = await taskDB.getAllTasks();
-        return allUsers;
+        try {
+            const allUsers = await taskDB.getAllTasks();
+            return allUsers;
+        }
+        catch (error) {
+            throw error;
+        }
     },
     async getTaskById(id) {
-        const task = await taskDB.getTaskById(id);
-        return task;
+        try {
+            const task = await taskDB.getTaskById(id);
+            return task;
+        }
+        catch (error) {
+            throw error;
+        }
     },
     async createNewTask(newTask) {
+        let newId = 8;
         const taskToInsert = {
-            ...newTask,
-            id: newId++
+            id: newId,
+            ...newTask
         };
-        const createdTask = await taskDB.createNewTask(taskToInsert);
-        return createdTask;
+        try {
+            const createdTask = await taskDB.createNewTask(taskToInsert);
+            return createdTask;
+        }
+        catch (error) {
+            throw error;
+        }
     },
     async updateTask(id, changedTask) {
-        const updatedTask = await taskDB.updateTask(id, changedTask);
-        return updatedTask;
+        try {
+            const updatedTask = await taskDB.updateTask(id, changedTask);
+            return updatedTask;
+        }
+        catch (error) {
+            throw error;
+        }
     },
     async deleteTask(id) {
-        taskDB.deleteTask(id);
+        try {
+            taskDB.deleteTask(id);
+        }
+        catch (error) {
+            throw error;
+        }
     },
 };
 export default UserService;
