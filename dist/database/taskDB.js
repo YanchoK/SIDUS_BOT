@@ -9,6 +9,18 @@ const Task = {
             throw { status: 500, message: error };
         }
     },
+    async getAllTasksInRange(startIndex, endIndex) {
+        try {
+            if (endIndex > DB.task.length) {
+                endIndex = DB.task.length;
+            }
+            const allTasksInRange = await DB.task.slice(startIndex, endIndex);
+            return allTasksInRange;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     async getTaskById(id) {
         try {
             const task = DB.task.find((task) => task.id === id);

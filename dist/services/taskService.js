@@ -1,9 +1,18 @@
 import taskDB from "../database/taskDB.js";
-const UserService = {
+const TaskService = {
     async getAllTasks() {
         try {
-            const allUsers = await taskDB.getAllTasks();
-            return allUsers;
+            const allTasks = await taskDB.getAllTasks();
+            return allTasks;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+    async getAllTasksInRange(startIndex, endIndex) {
+        try {
+            const allTasksInRange = await taskDB.getAllTasksInRange(startIndex, endIndex);
+            return allTasksInRange;
         }
         catch (error) {
             throw error;
@@ -50,5 +59,5 @@ const UserService = {
         }
     },
 };
-export default UserService;
+export default TaskService;
 //# sourceMappingURL=taskService.js.map

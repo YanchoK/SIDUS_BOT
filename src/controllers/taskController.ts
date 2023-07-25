@@ -9,9 +9,19 @@ const prisma = new PrismaClient()
 
 const TaskController = {
     async getAllTasks(req: Request, res: Response) {
+        const page: number = parseInt(req.query.page as string) || 1; // The requested page number
+        const limit: number = parseInt(req.query.limit as string) || 10; // Number of items per page
+        let allTasks: any;
         try {
-            const allTasks = await taskService.getAllTasks();
-            res.status(200).json(allTasks);
+            if (!req.query.page && !req.query.limit) {
+                allTasks = await taskService.getAllTasks();
+            }
+            else {
+                const startIndex: number = (page - 1) * limit;
+                const endIndex: number = page * limit;
+                allTasks = await taskService.getAllTasksInRange(startIndex, endIndex);
+            }
+            res.status(200).send({ count: allTasks.length, tasks: allTasks });
         }
         catch (error: any) {
             res.status(500)

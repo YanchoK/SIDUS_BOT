@@ -1,11 +1,20 @@
 import taskDB from "../database/taskDB.js";
 import TaskModel from "../models/taskModel.js";
 // import { v4 as uuid } from 'uuid';
-const UserService = {
+const TaskService = {
     async getAllTasks() {
         try {
-            const allUsers = await taskDB.getAllTasks();
-            return allUsers;
+            const allTasks = await taskDB.getAllTasks();
+            return allTasks;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async getAllTasksInRange(startIndex: number, endIndex: number) {
+        try {
+            const allTasksInRange = await taskDB.getAllTasksInRange(startIndex, endIndex);
+            return allTasksInRange;
         } catch (error) {
             throw error;
         }
@@ -20,9 +29,9 @@ const UserService = {
         }
     },
 
-    async createNewTask(newTask:any) {
-        let newId=8         //change later!
-        const taskToInsert:TaskModel = {
+    async createNewTask(newTask: any) {
+        let newId = 8         //change later!
+        const taskToInsert: TaskModel = {
             id: newId,
             ...newTask
             // id: uuid()
@@ -59,4 +68,4 @@ const UserService = {
     },
 }
 
-export default UserService
+export default TaskService

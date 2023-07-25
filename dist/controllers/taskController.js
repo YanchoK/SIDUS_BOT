@@ -3,9 +3,19 @@ import taskService from '../services/taskService.js';
 const prisma = new PrismaClient();
 const TaskController = {
     async getAllTasks(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        let allTasks;
         try {
-            const allTasks = await taskService.getAllTasks();
-            res.status(200).json(allTasks);
+            if (!req.query.page && !req.query.limit) {
+                allTasks = await taskService.getAllTasks();
+            }
+            else {
+                const startIndex = (page - 1) * limit;
+                const endIndex = page * limit;
+                allTasks = await taskService.getAllTasksInRange(startIndex, endIndex);
+            }
+            res.status(200).send({ count: allTasks.length, tasks: allTasks });
         }
         catch (error) {
             res.status(500)
