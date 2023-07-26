@@ -102,5 +102,5 @@
     "skipLibCheck": true,    
     // "allowImportingTsExtensions":true                     /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "dist/v1/routes/swagger.js"]
 }

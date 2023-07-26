@@ -1,4 +1,4 @@
-import User from "../database/User.js";
+import User from "../database/userDB.js";
 const UserService = {
     getAllUsers() {
         const allUsers = User.getAllUsers();
