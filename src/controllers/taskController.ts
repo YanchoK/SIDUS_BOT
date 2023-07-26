@@ -52,7 +52,7 @@ const TaskController = {
 
     async createNewTask(req: Request, res: Response) {
         const { body } = req;
-
+        console.log(body)
         if (
             !body.name ||
             !body.message ||

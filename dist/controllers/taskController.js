@@ -44,6 +44,7 @@ const TaskController = {
     },
     async createNewTask(req, res) {
         const { body } = req;
+        console.log(body);
         if (!body.name ||
             !body.message ||
             !body.datetime ||
