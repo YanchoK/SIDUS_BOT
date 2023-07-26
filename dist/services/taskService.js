@@ -9,9 +9,9 @@ const TaskService = {
             throw error;
         }
     },
-    async getAllTasksInRange(startIndex, endIndex) {
+    async getAllTasksInRange(page, limit) {
         try {
-            const allTasksInRange = await taskDB.getAllTasksInRange(startIndex, endIndex);
+            const allTasksInRange = await taskDB.getAllTasksInRange(page, limit);
             return allTasksInRange;
         }
         catch (error) {
@@ -28,13 +28,8 @@ const TaskService = {
         }
     },
     async createNewTask(newTask) {
-        let newId = 8;
-        const taskToInsert = {
-            id: newId,
-            ...newTask
-        };
         try {
-            const createdTask = await taskDB.createNewTask(taskToInsert);
+            const createdTask = await taskDB.createNewTask(newTask);
             return createdTask;
         }
         catch (error) {
@@ -52,7 +47,7 @@ const TaskService = {
     },
     async deleteTask(id) {
         try {
-            taskDB.deleteTask(id);
+            await taskDB.deleteTask(id);
         }
         catch (error) {
             throw error;

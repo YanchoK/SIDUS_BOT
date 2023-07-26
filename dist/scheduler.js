@@ -5,23 +5,23 @@ const prisma = new PrismaClient();
 export function startSheduler() {
     cron.schedule('* * * * *', async () => {
         let now = new Date();
-        let messages = await prisma.message.findMany({
+        let messages = await prisma.task.findMany({
             where: {
-                timestamp: {
+                remindTime: {
                     lte: now,
                 },
                 sent: false
             }
         });
-        await messages.forEach(async (message) => {
+        await messages.forEach(async (task) => {
             try {
-                await openChat(message.bot_account_id);
-                await sendMessage(message.content);
-                if (message.repeating != "Does not repeat") {
-                    let rep = message.repeating.split(" ");
+                await openChat(task.bot_id || 0);
+                await sendMessage(task.content);
+                if (task.recurring != "Does not repeat") {
+                    let rep = task.recurring.split(" ");
                     let num = parseInt(rep[1]);
                     let interval = rep[2];
-                    let date = new Date(message.timestamp);
+                    let date = new Date(task.remindTime);
                     switch (interval) {
                         case "day":
                             date.setDate(date.getDate() + num);
@@ -36,19 +36,19 @@ export function startSheduler() {
                             date.setFullYear(date.getFullYear() + num);
                             break;
                     }
-                    await prisma.message.create({
+                    await prisma.task.create({
                         data: {
-                            ...message,
+                            ...task,
                             id: undefined,
-                            timestamp: date
+                            remindTime: date
                         }
                     });
                 }
-                await prisma.message.update({
-                    where: { id: message.id },
+                await prisma.task.update({
+                    where: { id: task.id },
                     data: { sent: true },
                 });
-                console.log(` - Updated message with id ${message.id}`);
+                console.log(` - Updated task with id ${task.id}`);
             }
             catch (err) {
                 console.log(err);

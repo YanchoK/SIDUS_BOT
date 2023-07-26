@@ -1,99 +1,80 @@
-import DB from "./db.json";
-import Utils from "./utils.js";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 const Task = {
-    getAllTasks() {
+    async getAllTasks() {
         try {
-            return DB.task;
+            return await prisma.task.findMany();
         }
         catch (error) {
             throw { status: 500, message: error };
         }
     },
-    async getAllTasksInRange(startIndex, endIndex) {
+    async getAllTasksInRange(page, limit) {
         try {
-            if (endIndex > DB.task.length) {
-                endIndex = DB.task.length;
+            let cursorPosition = page * limit - (limit - 1);
+            const allTasksInRange = await prisma.task.findMany({
+                take: limit,
+                cursor: {
+                    id: cursorPosition,
+                },
+            });
+            if (allTasksInRange.length === 0) {
+                const tasksCount = await prisma.task.count();
+                throw { status: 500, message: `Number of elements exieded! Elements count: ${tasksCount}.` };
             }
-            const allTasksInRange = await DB.task.slice(startIndex, endIndex);
             return allTasksInRange;
         }
         catch (error) {
             throw error;
         }
     },
-    async getTaskById(id) {
+    async getTaskById(taskId) {
         try {
-            const task = DB.task.find((task) => task.id === id);
-            if (!task) {
-                throw {
-                    status: 400,
-                    message: `Can't find workout with the id '${id}'`,
-                };
-            }
+            const task = await prisma.task.findFirstOrThrow({
+                where: {
+                    id: taskId
+                }
+            });
             return task;
         }
         catch (error) {
-            throw { status: error?.status || 500, message: error?.message || error };
+            throw { status: error?.status || 500, message: `Can't find task with id ${taskId}` || error };
         }
     },
     async createNewTask(newTask) {
-        const isAlreadyAdded = await DB.task.findIndex((task) => task.name === newTask.name) > -1;
-        if (isAlreadyAdded) {
-            throw {
-                status: 400,
-                message: `Task with the name '${newTask.name}' already exists`,
-            };
-        }
-        try {
-            await DB.task.push(newTask);
-            await Utils.saveToDatabase(DB);
-            return newTask;
-        }
-        catch (error) {
-            throw { status: 500, message: error.message };
-        }
+        await prisma.task.create({
+            data: {
+                title: newTask.name,
+                content: newTask.message,
+                remindTime: new Date(),
+                chatUrl_id: 1,
+                bot_id: 1
+            },
+        });
     },
-    async updateTask(id, changedTask) {
+    async updateTask(taskId, changedTask) {
         try {
-            const isAlreadyAdded = DB.task.findIndex((task) => task.name === changedTask.name) > -1;
-            if (isAlreadyAdded) {
-                throw {
-                    status: 400,
-                    message: `Workout with the name '${changedTask.name}' already exists`,
-                };
-            }
-            const taskIndex = await DB.task.findIndex((task) => task.id === id);
-            if (taskIndex === -1) {
-                throw {
-                    status: 400,
-                    message: `Can't find workout with the id '${id}'`,
-                };
-            }
-            if (taskIndex !== -1) {
-                const updatedTask = {
-                    ...DB.task[taskIndex],
-                    ...changedTask,
-                };
-                DB.task[taskIndex] = changedTask;
-                await Utils.saveToDatabase(DB);
-                return updatedTask;
-            }
+            await this.getTaskById(taskId);
+            const updatedTask = await prisma.task.update({
+                where: {
+                    id: taskId,
+                },
+                data: changedTask,
+            });
+            return updatedTask;
         }
         catch (error) {
             throw { status: error?.status || 500, message: error?.message || error };
         }
     },
-    async deleteTask(id) {
+    async deleteTask(taskId) {
         try {
-            const taskIndex = await DB.task.findIndex((task) => task.id === id);
-            if (taskIndex === -1) {
-                throw {
-                    status: 400,
-                    message: `Can't find workout with the id '${id}'`,
-                };
-            }
-            await DB.task.splice(taskIndex, 1);
-            await Utils.saveToDatabase(DB);
+            await this.getTaskById(taskId);
+            await prisma.task.delete({
+                where: {
+                    id: taskId
+                }
+            });
         }
         catch (error) {
             throw { status: error?.status || 500, message: error?.message || error };

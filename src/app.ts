@@ -15,9 +15,12 @@ import swaggerDocument from './swagger.json';
 
 // npm start
 // npm run build
+// npx prisma migrate dev (always stop the server in order to apply in the code)
+// npx prisma db push
 
+//TODO: fix getInRange (it sees the index, not the elementNumber and breaks when element is deleted)
+//TODO: fix create task to get all properties => change task model
 
-//TODO: add cookies[] to the bots
 
 
 // use node-cron
@@ -29,7 +32,7 @@ app.use(express.json())
 const port: Number = 3000
 
 // Start checking for new tasks in the DB
-startSheduler()
+// startSheduler()
 
 app.use(bodyParser.json())
 // Register routes

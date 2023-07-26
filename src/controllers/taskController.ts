@@ -5,7 +5,14 @@ import taskService from '../services/taskService.js'
 import TaskModel from '../models/taskModel.js';
 const prisma = new PrismaClient()
 
-// throw new Error("Division by zero is not allowed.");
+const checkForId = (id: string) => {
+    if (!id) {
+        throw {
+            status: "FAILED",
+            data: { error: "Parameter ':id' can not be empty" }
+        };
+    }
+}
 
 const TaskController = {
     async getAllTasks(req: Request, res: Response) {
@@ -17,9 +24,7 @@ const TaskController = {
                 allTasks = await taskService.getAllTasks();
             }
             else {
-                const startIndex: number = (page - 1) * limit;
-                const endIndex: number = page * limit;
-                allTasks = await taskService.getAllTasksInRange(startIndex, endIndex);
+                allTasks = await taskService.getAllTasksInRange(page, limit);
             }
             res.status(200).send({ count: allTasks.length, tasks: allTasks });
         }
@@ -31,21 +36,14 @@ const TaskController = {
 
     async getTaskById(req: Request, res: Response) {
         const { params: { id } } = req;
-        if (!id) {
-            res
-                .status(400)
-                .send({
-                    status: "FAILED",
-                    data: { error: "Parameter ':id' can not be empty" },
-                });
-        }
         try {
             const task = await taskService.getTaskById(parseInt(id))
             res.status(200).json(task)
         } catch (error: any) {
-            res
-                .status(error?.status || 500)
-                .send({ status: "FAILED", data: { error: error?.message || error } });
+            res.status(error?.status || 500).send({
+                status: "FAILED",
+                data: { error: error?.message || error }
+            });
         }
         // res.status(500).json({ error: 'An error occurred while retrieving user.' });
     },
@@ -95,7 +93,8 @@ const TaskController = {
 
     async updateTask(req: Request, res: Response) {
         const { body, params: { id } } = req;
-        if (!id) {
+
+        if (!id) {      //This doesn't work!
             res
                 .status(400)
                 .send({
@@ -107,9 +106,10 @@ const TaskController = {
             const updatedTask = await taskService.updateTask(parseInt(id), body as TaskModel)
             res.status(200).json({ message: "Task is updated", data: updatedTask });
         } catch (error: any) {
-            res
-                .status(error?.status || 500)
-                .send({ status: "FAILED", data: { error: error?.message || error } });
+            res.status(error?.status || 500).send({
+                status: "FAILED",
+                data: { error: error?.message || error }
+            });
         }
     },
 

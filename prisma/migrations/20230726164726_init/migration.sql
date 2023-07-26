@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE `task` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `title` VARCHAR(100) NOT NULL,
+    `message` TEXT NOT NULL,
+    `remindAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `recurring` VARCHAR(50) NULL,
+    `chatURL` VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

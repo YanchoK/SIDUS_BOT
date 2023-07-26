@@ -1,6 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import taskService from '../services/taskService.js';
 const prisma = new PrismaClient();
+const checkForId = (id) => {
+    if (!id) {
+        throw {
+            status: "FAILED",
+            data: { error: "Parameter ':id' can not be empty" }
+        };
+    }
+};
 const TaskController = {
     async getAllTasks(req, res) {
         const page = parseInt(req.query.page) || 1;
@@ -11,9 +19,7 @@ const TaskController = {
                 allTasks = await taskService.getAllTasks();
             }
             else {
-                const startIndex = (page - 1) * limit;
-                const endIndex = page * limit;
-                allTasks = await taskService.getAllTasksInRange(startIndex, endIndex);
+                allTasks = await taskService.getAllTasksInRange(page, limit);
             }
             res.status(200).send({ count: allTasks.length, tasks: allTasks });
         }
@@ -24,22 +30,15 @@ const TaskController = {
     },
     async getTaskById(req, res) {
         const { params: { id } } = req;
-        if (!id) {
-            res
-                .status(400)
-                .send({
-                status: "FAILED",
-                data: { error: "Parameter ':id' can not be empty" },
-            });
-        }
         try {
             const task = await taskService.getTaskById(parseInt(id));
             res.status(200).json(task);
         }
         catch (error) {
-            res
-                .status(error?.status || 500)
-                .send({ status: "FAILED", data: { error: error?.message || error } });
+            res.status(error?.status || 500).send({
+                status: "FAILED",
+                data: { error: error?.message || error }
+            });
         }
     },
     async createNewTask(req, res) {
@@ -93,9 +92,10 @@ const TaskController = {
             res.status(200).json({ message: "Task is updated", data: updatedTask });
         }
         catch (error) {
-            res
-                .status(error?.status || 500)
-                .send({ status: "FAILED", data: { error: error?.message || error } });
+            res.status(error?.status || 500).send({
+                status: "FAILED",
+                data: { error: error?.message || error }
+            });
         }
     },
     async deleteTask(req, res) {
