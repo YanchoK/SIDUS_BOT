@@ -12,10 +12,17 @@ Have repetitive tasks? No worries! TaskBot lets you set up **recurring tasks** e
 Stay ahead of the weather! TaskBot can send you daily weather forecasts, ensuring you're prepared for whatever the day brings.
 ### News Updates
 Stay informed and in the know! TaskBot can send you personalized news updates directly in your **messenger chat**.
-
 # Getting Started
 1. Open the Swagger api documentation.
 2. Register
 3. Create a task
 # Showcase
 This project is still under development.
+# Tech stack
+- Node.js
+- Puppetier
+- Express.js
+- Typescript
+- Prisma
+- Mysql
+- Swagger
