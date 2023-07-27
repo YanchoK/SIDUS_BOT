@@ -38,6 +38,7 @@ const TaskService = {
     },
     async updateTask(id, changedTask) {
         try {
+            changedTask.updatedAt = new Date();
             const updatedTask = await taskDB.updateTask(id, changedTask);
             return updatedTask;
         }

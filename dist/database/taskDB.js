@@ -39,15 +39,15 @@ const Task = {
         }
     },
     async createNewTask(newTask) {
-        await prisma.task.create({
-            data: {
-                title: newTask.name,
-                content: newTask.message,
-                remindTime: new Date(),
-                chatUrl_id: 1,
-                bot_id: 1
-            },
-        });
+        try {
+            const createdTask = await prisma.task.create({
+                data: newTask
+            });
+            return createdTask;
+        }
+        catch (error) {
+            throw { status: 500, message: error.message };
+        }
     },
     async updateTask(taskId, changedTask) {
         try {

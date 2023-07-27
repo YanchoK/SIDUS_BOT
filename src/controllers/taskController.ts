@@ -49,21 +49,19 @@ const TaskController = {
     },
 
     async createNewTask(req: Request, res: Response) {
-        const { body } = req;
-        console.log(body)
+        const { title, content, chatUrl_id, bot_id, user_id, remindTime, recurring, sent, updatedAt } = req.body;
         if (
-            !body.name ||
-            !body.message ||
-            !body.datetime ||
-            !body.recurring ||
-            !body.chat_url ||
-            !body.bot_id
+            !title ||
+            !content ||
+            !chatUrl_id ||
+            !bot_id
+            //||!user_id
         ) {
             res.status(400).send({
                 status: "400",
                 data: {
                     error:
-                        "One of the following keys is missing or is empty in request body: 'name', 'message', 'datetime', 'recurring', 'bot_id'",
+                        "One of the following keys is missing or is empty in request body: 'title', 'content', 'chatUrl_id', 'bot_id', 'user_id'",
                 },
             });//.json({ error: 'Invalid task data' });
             return;
@@ -71,13 +69,16 @@ const TaskController = {
             // The body does not match the TaskModel interface. Handle the error appropriately.
 
             // datetime: new Date(Date.parse(body.datetime)),
-            const newTask = {
-                name: body.name,
-                message: body.message,
-                datetime: body.datetime,
-                recurring: body.recurring,
-                chat_url: body.chat_url,
-                bot_id: body.bot_id
+            const newTask: TaskModel = {
+                title: title,
+                content: content,
+                bot_id: bot_id,
+                chatUrl_id: chatUrl_id,
+                user_id: user_id,
+                remindTime: remindTime,
+                recurring: recurring,
+                sent: sent,
+                updatedAt: updatedAt
             }
             try {
                 const createdTask = await taskService.createNewTask(newTask)
@@ -93,15 +94,6 @@ const TaskController = {
 
     async updateTask(req: Request, res: Response) {
         const { body, params: { id } } = req;
-
-        if (!id) {      //This doesn't work!
-            res
-                .status(400)
-                .send({
-                    status: "FAILED",
-                    data: { error: "Parameter ':id' can not be empty" },
-                });
-        }
         try {
             const updatedTask = await taskService.updateTask(parseInt(id), body as TaskModel)
             res.status(200).json({ message: "Task is updated", data: updatedTask });
@@ -115,14 +107,6 @@ const TaskController = {
 
     async deleteTask(req: Request, res: Response) {
         const { params: { id } } = req;
-        if (!id) {
-            res
-                .status(400)
-                .send({
-                    status: "FAILED",
-                    data: { error: "Parameter ':id' can not be empty" },
-                });
-        }
         try {
             await taskService.deleteTask(parseInt(id))
             res.status(200).json({ message: "Task is deleted" });

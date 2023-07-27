@@ -18,7 +18,6 @@ import swaggerDocument from './swagger.json';
 // npx prisma migrate dev (always stop the server in order to apply in the code)
 // npx prisma db push
 
-//TODO: fix getInRange (it sees the index, not the elementNumber and breaks when element is deleted)
 //TODO: fix create task to get all properties => change task model
 
 

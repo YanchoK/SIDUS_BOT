@@ -32,8 +32,8 @@ const Task = {
             // });
 
             //not skallable slower variant
-            const allTasksInRange= await prisma.task.findMany({
-                skip: (page-1) * limit,
+            const allTasksInRange = await prisma.task.findMany({
+                skip: (page - 1) * limit,
                 take: limit,
             });
 
@@ -62,29 +62,21 @@ const Task = {
     },
 
     async createNewTask(newTask: TaskModel) {
-        await prisma.task.create({
-            data: {
-                title: newTask.name,
-                content: newTask.message,
-                remindTime: new Date(),
-                chatUrl_id: 1,
-                bot_id: 1
-            },
-        })
+        try {
+            const createdTask = await prisma.task.create({
+                data: newTask
+            })
+            return createdTask;
+        }
+        catch (error: any) {
+            throw { status: 500, message: error.message };
+        }
         // const isAlreadyAdded = await DB.task.findIndex((task) => task.name === newTask.name) > -1
         // if (isAlreadyAdded) {
         //     throw {
         //         status: 400,
         //         message: `Task with the name '${newTask.name}' already exists`,
         //     };
-        // }
-        // try {
-        //     await DB.task.push(newTask)
-        //     await Utils.saveToDatabase(DB)
-        //     return newTask;
-        // }
-        // catch (error: any) {
-        //     throw { status: 500, message: error.message };
         // }
     },
 
