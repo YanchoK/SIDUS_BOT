@@ -11,12 +11,9 @@ const Task = {
     },
     async getAllTasksInRange(page, limit) {
         try {
-            let cursorPosition = page * limit - (limit - 1);
             const allTasksInRange = await prisma.task.findMany({
+                skip: (page - 1) * limit,
                 take: limit,
-                cursor: {
-                    id: cursorPosition,
-                },
             });
             if (allTasksInRange.length === 0) {
                 const tasksCount = await prisma.task.count();

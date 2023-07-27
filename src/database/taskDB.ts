@@ -17,19 +17,24 @@ const Task = {
     },
     async getAllTasksInRange(page: number, limit: number) {
         try {
-            let cursorPosition: number = page * limit - (limit - 1);
-
+            //faster variant, but need additional indexation in the db
+            // let cursorPosition: number = page * limit - (limit - 1);
             // //if there are no more elements, return the last element
             // const lastIndex = await prisma.task.count()
             // if (cursorPosition > lastIndex) {
             //     cursorPosition = lastIndex
             // }
+            // const allTasksInRange = await prisma.task.findMany({
+            //     take: limit,
+            //     cursor: {
+            //         id: cursorPosition,
+            //     },
+            // });
 
-            const allTasksInRange = await prisma.task.findMany({
+            //not skallable slower variant
+            const allTasksInRange= await prisma.task.findMany({
+                skip: (page-1) * limit,
                 take: limit,
-                cursor: {
-                    id: cursorPosition,
-                },
             });
 
             if (allTasksInRange.length === 0) {
