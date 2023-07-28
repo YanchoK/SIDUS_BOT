@@ -1,5 +1,5 @@
 import cron from "node-cron"
-import { PrismaClient, message } from '@prisma/client';
+import { PrismaClient, Task } from '@prisma/client';
 import { openChat, sendMessage } from './bot.js';
 
 const prisma = new PrismaClient()
@@ -8,28 +8,28 @@ export function startSheduler() {
     cron.schedule('* * * * *', async () => {
         let now = new Date()
 
-        let messages: message[] = await prisma.message.findMany({
+        let messages: Task[] = await prisma.task.findMany({
             where: {
-                timestamp: {
+                remindTime: {
                     lte: now,
                 },
                 sent: false
             }
         })
 
-        await messages.forEach(async message => {
-            // login in messenger and send message
+        await messages.forEach(async task => {
+            // login in messenger and send task
             try {
-                await openChat(message.bot_account_id)
-                await sendMessage(message.content)
+                await openChat(task.bot_id || 0)
+                await sendMessage(task.content)
 
 
-                if (message.repeating != "Does not repeat") {
-                    let rep = message.repeating.split(" ")
+                if (task.recurring != "Does not repeat") {
+                    let rep = task.recurring.split(" ")
                     let num: number = parseInt(rep[1])
                     let interval = rep[2]
 
-                    let date = new Date(message.timestamp)
+                    let date = new Date(task.remindTime)
 
                     switch (interval) {
                         case "day":
@@ -46,28 +46,28 @@ export function startSheduler() {
                             break;
                     }
 
-                    await prisma.message.create({
+                    await prisma.task.create({
                         data: {
-                            ...message,
+                            ...task,
                             id: undefined,
-                            timestamp: date
+                            remindTime: date
                         }
                     })
                 }
 
-                await prisma.message.update({
-                    where: { id: message.id },
+                await prisma.task.update({
+                    where: { id: task.id },
                     data: { sent: true },
                 })
 
-                console.log(` - Updated message with id ${message.id}`);
+                console.log(` - Updated task with id ${task.id}`);
 
             } catch (err: any) {
                 console.log(err)
             }
         })
 
-        //whis will show up first because previous func is now awaited
+        //this will show up first because previous func is now awaited
         console.log("Checked for sheduled messages.")
     })
 }

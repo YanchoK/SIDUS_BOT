@@ -1,0 +1,10 @@
+- Watch the PERN video
+- Create the API
+- Copy the functionality
+- Chose ORM (Prisma/Sequelize) and try to deploy it
+- Create the Database
+- Create migrations and connect it to the code
+- Deploy
+- User authentication
+- Create the API documentation
+

@@ -1,12 +1,13 @@
-
 interface Task {
-  id: number,
-  name: string,
-  message: string,
-  datetime: string,
-  recurring: string,
-  chat_url: string,
-  bot_id: number
+  title: string,
+  content: string,
+  remindTime?: string,
+  recurring?: string,
+  user_id: number,
+  bot_id: number,
+  chatUrl_id: number,
+  sent: boolean,
+  updatedAt: Date
 }
 
 export default Task;

@@ -31,7 +31,7 @@ async function openChat(botId) {
                 cUserCookie
             };
         }
-        await prisma.botaccount.update({
+        await prisma.bot.update({
             where: {
                 id: botId
             },
@@ -62,7 +62,7 @@ async function openPage(driver) {
 }
 async function addCookies(driver, botId) {
     try {
-        let bot = await prisma.botaccount.findUnique({
+        let bot = await prisma.bot.findUnique({
             where: {
                 id: botId
             }
