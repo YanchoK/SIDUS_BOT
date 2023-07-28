@@ -8,12 +8,18 @@ import { startSheduler } from './scheduler.js';
 import v1UserRouter from './v1/routes/userRoutes.js';
 import v1TaskRouter from './v1/routes/taskRoutes.js';
 import bodyParser from 'body-parser';
+// import { swaggerDocs as V1SwaggerDocs } from "../dist/v1/swagger.js";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerDocument from './swagger.json';
 
 // npm start
 // npm run build
+// npx prisma migrate dev (always stop the server in order to apply in the code)
+// npx prisma db push
 
+//TODO: fix create task to get all properties => change task model
 
-//TODO: add cookies[] to the bots
 
 
 // use node-cron
@@ -25,12 +31,34 @@ app.use(express.json())
 const port: Number = 3000
 
 // Start checking for new tasks in the DB
-startSheduler()
+// startSheduler()
 
 app.use(bodyParser.json())
 // Register routes
 app.use('/api/v1/users', v1UserRouter);
 app.use('/api/v1/tasks', v1TaskRouter);
+
+const swaggerOptions = {
+    customCss: '.swagger-ui .topbar { display: none }', // This line removes the "Authorize" button
+  };
+app.use('/',swaggerUi.serve,swaggerUi.setup(swaggerDocument,swaggerOptions))
+
+app.listen(port, () => { 
+    console.log(`Server is listenning on http://localhost:${port}/`)
+})
+
+// const swaggerSpecs = swaggerJsdoc({
+//     swaggerDefinition: swaggerDocument,
+//     apis: ['your-api-file.js'], // Replace with the file containing your JSDoc comments
+//   });
+  
+//   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+  
+//   const port = 3000;
+//   app.listen(port, () => {
+//     console.log(`Server running on port ${port}`);
+//   });
+
 
 // app.post('/api/try', async (req, res) => {
 //     try {
@@ -127,6 +155,3 @@ app.use('/api/v1/tasks', v1TaskRouter);
 
 // //     res.status(200).send('data saved succesfully')
 // // })
-
-
-app.listen(port, () => { console.log(`Server is listenning on http://localhost:${port}/`) }) //npm run devStart

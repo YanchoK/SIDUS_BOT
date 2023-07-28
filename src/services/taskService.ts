@@ -11,9 +11,9 @@ const TaskService = {
         }
     },
 
-    async getAllTasksInRange(startIndex: number, endIndex: number) {
+    async getAllTasksInRange(page: number, limit: number) {
         try {
-            const allTasksInRange = await taskDB.getAllTasksInRange(startIndex, endIndex);
+            const allTasksInRange = await taskDB.getAllTasksInRange(page, limit);
             return allTasksInRange;
         } catch (error) {
             throw error;
@@ -30,17 +30,8 @@ const TaskService = {
     },
 
     async createNewTask(newTask: any) {
-        let newId = 8         //change later!
-        const taskToInsert: TaskModel = {
-            id: newId,
-            ...newTask
-            // id: uuid()
-            // ,createdAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-            // updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-        }
-
         try {
-            const createdTask = await taskDB.createNewTask(taskToInsert)
+            const createdTask = await taskDB.createNewTask(newTask)
             return createdTask;
         }
         catch (error) {
@@ -50,6 +41,7 @@ const TaskService = {
 
     async updateTask(id: number, changedTask: TaskModel) {
         try {
+            changedTask.updatedAt=new Date()
             const updatedTask = await taskDB.updateTask(id, changedTask)
             return updatedTask;
         }
@@ -60,7 +52,7 @@ const TaskService = {
 
     async deleteTask(id: number) {
         try {
-            taskDB.deleteTask(id)
+            await taskDB.deleteTask(id)
         }
         catch (error) {
             throw error;

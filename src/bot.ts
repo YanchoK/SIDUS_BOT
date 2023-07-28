@@ -1,13 +1,5 @@
 //npm install --save-dev chromedriver
 
-// const { Builder, By, Key, until } = require("selenium-webdriver");
-// const chrome = require("selenium-webdriver/chrome");
-// require("chromedriver");
-// var schedule = require('node-schedule');
-// let props = require("./props.json")
-// const fs = require("fs");
-// const { PrismaClient } = require('@prisma/client')
-
 // import { Builder, By, Key, actions } from "selenium-webdriver";
 import webdriver, { WebDriver } from 'selenium-webdriver';
 const { Builder, By, Key, Actions } = webdriver;
@@ -58,7 +50,7 @@ async function openChat(botId: number) {
         // await console.log(cookies)
 
         // Save the new cookies
-        await prisma.botaccount.update({
+        await prisma.bot.update({
             where: {
                 id: botId
             },
@@ -113,7 +105,7 @@ async function openPage(driver: webdriver.WebDriver) {
 
 async function addCookies(driver: WebDriver, botId: number) {
     try {
-        let bot = await prisma.botaccount.findUnique({
+        let bot = await prisma.bot.findUnique({
             where: {
                 id: botId
             }

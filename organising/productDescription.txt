@@ -1,0 +1,122 @@
+Im a user. I can Register in the website and i can log in.
+I get JWT token.
+At the home page is see dashboard with 2 sections.
+
+ - First section is for tasks. I can see all my tasks for the day. When the time for certain task comes,
+the messenger bot will write me to do it. When i compleat it, i will react on the message,
+and the task will be compleated. If i dont compleat task for the day, i will recieve list of the compleated
+and uncompleated tasks at the end of the day.
+
+ - Second section will be bot comands and apis. For example, i can tell the bot to tell me the weather for the day every morning.
+
+ - I can use the default bot, or i can add my own.
+
+
+When using PUT, it is assumed that you are sending the complete entity, and that complete entity
+replaces any existing entity at that URI.
+
+
+There are 2 types of users: admin and regular user.
+The user can register or log in. 
+At app.com/bots you can see list of the bots. The firs one is the default bot called Rob. There are buttons create new bot, delete (on every bot), edit (on every bot). When click add new bot user should enter the bot name, email, password.
+At app.com/createTask user can enter: task name, choose a bot from drop down menu, chat url, Message, datetime, repeating pattern (every 1 week).
+At the dasboard all tasks are displayed with buttons edit and delete. There is also create task button.
+
+
+POST: /api/account/me
+GET: /api/account/{id}
+PUT: /api/account/{id}
+DELETE: /api/account/{id}
+
+POST: /api/
+GET: /api/
+PUT: /api/
+DELETE: /api/
+
+
+
+
+User Registration:
+
+Endpoint: POST /api/users/register
+Request body: { "username": "example_user", "email": "user@example.com", "password": "password123", "type": "regular" }
+Response: { "message": "User registered successfully" }
+User Login:
+
+Endpoint: POST /api/users/login
+Request body: { "email": "user@example.com", "password": "password123" }
+Response: { "token": "your_token_here" }
+List of Bots:
+
+View User Profile:
+
+Endpoint: GET /api/users/profile
+Response: { "id": 1, "username": "example_user", "email": "user@example.com", "type": "regular" }
+Edit User Profile:
+
+Endpoint: PUT /api/users/profile
+Request body: { "username": "new_username", "email": "new_email@example.com" }
+Response: { "message": "User profile updated successfully" }
+Delete User Profile:
+
+Endpoint: DELETE /api/users/profile
+Response: { "message": "User profile deleted successfully" }
+
+Endpoint: GET /api/bots
+Response: { "bots": [ { "id": 1, "name": "Rob" }, { "id": 2, "name": "Bot2" }, ... ] }
+Create New Bot:
+
+Endpoint: POST /api/bots
+Request body: { "name": "Bot2", "email": "bot2@example.com", "password": "bot2password" }
+Response: { "message": "Bot created successfully" }
+Delete Bot:
+
+Endpoint: DELETE /api/bots/{bot_id}
+Response: { "message": "Bot deleted successfully" }
+Edit Bot:
+
+Endpoint: PUT /api/bots/{bot_id}
+Request body: { "name": "New Name" }
+Response: { "message": "Bot updated successfully" }
+Create Task:
+
+Endpoint: POST /api/tasks
+Request body: { "name": "Task 1", "bot_id": 1, "chat_url": "https://example.com/chat", "message": "Hello!", "datetime": "2023-07-15T10:00:00", "repeating_pattern": "every 1 week" }
+Response: { "message": "Task created successfully" }
+Edit Task:
+
+Endpoint: PUT /api/tasks/{task_id}
+Request body: { "name": "New Task Name" }
+Response: { "message": "Task updated successfully" }
+Delete Task:
+
+Endpoint: DELETE /api/tasks/{task_id}
+Response: { "message": "Task deleted successfully" }
+List Tasks in Dashboard:
+
+Endpoint: GET /api/tasks
+Response: { "tasks": [ { "id": 1, "name": "Task 1" }, { "id": 2, "name": "Task 2" }, ... ] }
+
+
+Table: users
+
+id (primary key)
+username (unique)
+email (unique)
+password
+type (admin or regular user)
+
+Table: bots
+id (primary key)
+name
+email
+password
+
+Table: tasks
+id (primary key)
+name
+message
+datetime
+repeating_pattern
+chat_url
+bot_id (foreign key referencing the 'bots' table)

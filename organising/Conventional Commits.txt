@@ -1,0 +1,7 @@
+1. feat: for a new feature
+2. fix: for a bug fix
+3. docs: for documentation changes
+4. style: for changes that do not affect the code's meaning (e.g., formatting)
+5. refactor: for code refactoring
+6. test: for adding or updating tests
+7. chore: for changes to the build process, dependencies, or other non-code related tasks
