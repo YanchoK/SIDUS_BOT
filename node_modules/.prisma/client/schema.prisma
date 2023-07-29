@@ -14,22 +14,22 @@ datasource db {
 // }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique @db.VarChar(50)
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(50)
   password  String
-  firstName String    @db.VarChar(25)
-  lastName  String    @db.VarChar(25)
+  firstName String   @db.VarChar(25)
+  lastName  String   @db.VarChar(25)
   bots      Bot[]
-  chatUrls  ChatUrl[]
+  chats     Chat[]
   tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   // role_id   Int       @default(1)
   // role      Role      @relation(fields: [role_id], references: [id], map: "fk_user_role")
 }
 
 model Task {
   id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
   title      String   @db.VarChar(100)
   content    String   @db.Text
   remindTime DateTime @default(now())
@@ -39,28 +39,34 @@ model Task {
   user       User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_task_user")
   bot_id     Int?     @default(0)
   bot        Bot?     @relation(fields: [bot_id], references: [id], map: "fk_task_bot")
-  chatUrl_id Int?     
-  chatUrl    ChatUrl? @relation(fields: [chatUrl_id], references: [id], map: "fk_task_chatUrl")
+  chat_id    Int?
+  chat       Chat?    @relation(fields: [chat_id], references: [id], map: "fk_task_chat")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
-model ChatUrl {
-  id      Int    @id @default(autoincrement())
-  name    String @db.VarChar(25)
-  url     String @db.VarChar(100)
-  user_id Int?
-  user    User?  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chatUrl_user")
-  task    Task[]
+model Chat {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(25)
+  url       String   @db.VarChar(100)
+  user_id   Int?
+  user      User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chat_user")
+  task      Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Bot {
-  id       Int    @id @default(autoincrement())
-  email    String @db.VarChar(50)
-  password String @db.VarChar(50)
-  name     String @db.VarChar(25)
-  cookies  Json?
-  user_id  Int?
-  user     User?  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bot_user")
-  task     Task[]
+  id        Int      @id @default(autoincrement())
+  email     String   @db.VarChar(50)
+  password  String   @db.VarChar(50)
+  name      String   @db.VarChar(25)
+  cookies   Json?
+  user_id   Int?
+  user      User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bot_user")
+  task      Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // model account {
