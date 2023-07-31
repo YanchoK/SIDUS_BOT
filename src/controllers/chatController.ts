@@ -14,7 +14,7 @@ export default class ChatController {
         const page: number = parseInt(req.query.page as string) || 1; // The requested page number
         const limit: number = parseInt(req.query.limit as string) || 10; // Number of items per page
         let allChats: any;
-        // try {
+        try {
         if (!req.query.page && !req.query.limit) {
             allChats = await this.chatService.getAllChats();
         }
@@ -22,11 +22,11 @@ export default class ChatController {
             allChats = await this.chatService.getAllChatsInRange(page, limit);
         }
         res.status(200).send({ count: allChats.length, chats: allChats });
-        // }
-        // catch (error: any) {
-        //     res.status(500)
-        //         .send({ status: "FAILED", data: { error: error.message } });
-        // }
+        }
+        catch (error: any) {
+            res.status(500)
+                .send({ status: "FAILED", data: { error: error.message } });
+        }
     }
 
     getChatById = async (req: Request, res: Response) => {

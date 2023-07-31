@@ -5,9 +5,8 @@ interface Task {
   recurring?: string,
   user_id: number,
   bot_id: number,
-  chatUrl_id: number,
-  sent: boolean,
-  updatedAt: Date
+  chat_id: number,
+  sent: boolean
 }
 
 export default Task;

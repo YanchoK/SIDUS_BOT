@@ -8,13 +8,19 @@ export default class ChatController {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         let allChats;
-        if (!req.query.page && !req.query.limit) {
-            allChats = await this.chatService.getAllChats();
+        try {
+            if (!req.query.page && !req.query.limit) {
+                allChats = await this.chatService.getAllChats();
+            }
+            else {
+                allChats = await this.chatService.getAllChatsInRange(page, limit);
+            }
+            res.status(200).send({ count: allChats.length, chats: allChats });
         }
-        else {
-            allChats = await this.chatService.getAllChatsInRange(page, limit);
+        catch (error) {
+            res.status(500)
+                .send({ status: "FAILED", data: { error: error.message } });
         }
-        res.status(200).send({ count: allChats.length, chats: allChats });
     };
     getChatById = async (req, res) => {
         const { params: { id } } = req;

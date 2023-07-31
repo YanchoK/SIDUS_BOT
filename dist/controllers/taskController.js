@@ -36,11 +36,12 @@ export default class TaskController {
         }
     };
     createNewTask = async (req, res) => {
-        const { title, content, chatUrl_id, bot_id, user_id, remindTime, recurring, sent, updatedAt } = req.body;
+        const { title, content, chat_id, bot_id, user_id, remindTime, recurring, sent, updatedAt } = req.body;
         if (!title ||
             !content ||
-            !chatUrl_id ||
-            !bot_id) {
+            !chat_id ||
+            !bot_id ||
+            !user_id) {
             res.status(400).send({
                 status: "400",
                 data: {
@@ -53,13 +54,12 @@ export default class TaskController {
             const newTask = {
                 title: title,
                 content: content,
-                bot_id: bot_id,
-                chatUrl_id: chatUrl_id,
-                user_id: user_id,
+                chat_id: Number(chat_id),
+                bot_id: Number(bot_id),
+                user_id: Number(user_id),
                 remindTime: remindTime,
                 recurring: recurring,
-                sent: sent,
-                updatedAt: updatedAt
+                sent: sent
             };
             try {
                 const createdTask = await this.taskService.createNewTask(newTask);
