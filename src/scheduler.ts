@@ -18,10 +18,10 @@ export function startSheduler() {
         })
 
         await messages.forEach(async task => {
-            // login in messenger and send task
+            // login in to messenger and send task
             try {
-                await openChat(task.bot_id || 0)
-                await sendMessage(task.content)
+                // await openChat(task.bot_id || 0)
+                // await sendMessage(task.content)
 
 
                 if (task.recurring != "Does not repeat") {
@@ -49,7 +49,7 @@ export function startSheduler() {
                     await prisma.task.create({
                         data: {
                             ...task,
-                            id: undefined,
+                            // id: undefined,
                             remindTime: date
                         }
                     })

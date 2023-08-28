@@ -35,12 +35,12 @@ model Task {
   remindTime DateTime @default(now())
   recurring  String   @default("Does not repeat") @db.VarChar(50)
   sent       Boolean  @default(false)
-  user_id    Int?
-  user       User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_task_user")
-  bot_id     Int?     @default(0)
-  bot        Bot?     @relation(fields: [bot_id], references: [id], map: "fk_task_bot")
-  chat_id    Int?
-  chat       Chat?    @relation(fields: [chat_id], references: [id], map: "fk_task_chat")
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_task_user")
+  bot_id     Int      @default(0)
+  bot        Bot      @relation(fields: [bot_id], references: [id], map: "fk_task_bot")
+  chat_id    Int
+  chat       Chat     @relation(fields: [chat_id], references: [id], map: "fk_task_chat")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -49,8 +49,8 @@ model Chat {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(25)
   url       String   @db.VarChar(100)
-  user_id   Int?
-  user      User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chat_user")
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chat_user")
   task      Task[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,8 +62,8 @@ model Bot {
   password  String   @db.VarChar(50)
   name      String   @db.VarChar(25)
   cookies   Json?
-  user_id   Int?
-  user      User?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bot_user")
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bot_user")
   task      Task[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

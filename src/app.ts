@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import { initDriver, openPage, logIn, addCookies, sendMessage, openChat } from './bot.js';
-import fs from 'fs';
-import joi from 'joi';
 import { PrismaClient } from '@prisma/client';
 import { startSheduler } from './scheduler.js';
 import v1UserRouter from './v1/routes/userRoutes.js';
@@ -14,6 +12,7 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerDocument from './swagger.json';
+import AutoBot from './bot_puppeteer.js';
 
 // npm start
 // npm run build
@@ -34,7 +33,7 @@ app.use(express.json())
 const port: Number = 3000
 
 // Start checking for new tasks in the DB
-startSheduler()
+// startSheduler()
 
 app.use(bodyParser.json())
 // Register routes
@@ -46,11 +45,18 @@ app.use('/api/v1/tasks', v1TaskRouter);
 app.use('/api/v1/chats', v1ChatRouter);
 app.use('/api/v1/bots', v1BotRouter);
 
-const swaggerOptions = {
-    customCss: '.swagger-ui .topbar { display: none }', // This line removes the "Authorize" button
-  };
-app.use('/',swaggerUi.serve,swaggerUi.setup(swaggerDocument,swaggerOptions))
+const bot = new AutoBot()
+const main = async () => { 
+  console.log("requested!")
+  await bot.main(1) 
+}
+app.get('/api/v1/r', main)
 
-app.listen(port, () => { 
-    console.log(`Server is listenning on http://localhost:${port}/`)
+const swaggerOptions = {
+  customCss: '.swagger-ui .topbar { display: none }', // This line removes the "Authorize" button
+};
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions))
+
+app.listen(port, () => {
+  console.log(`Server is listenning on http://localhost:${port}/`)
 })

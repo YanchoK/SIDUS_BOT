@@ -1,6 +1,5 @@
 import cron from "node-cron";
 import { PrismaClient } from '@prisma/client';
-import { openChat, sendMessage } from './bot.js';
 const prisma = new PrismaClient();
 export function startSheduler() {
     cron.schedule('* * * * *', async () => {
@@ -15,8 +14,6 @@ export function startSheduler() {
         });
         await messages.forEach(async (task) => {
             try {
-                await openChat(task.bot_id || 0);
-                await sendMessage(task.content);
                 if (task.recurring != "Does not repeat") {
                     let rep = task.recurring.split(" ");
                     let num = parseInt(rep[1]);
@@ -39,7 +36,6 @@ export function startSheduler() {
                     await prisma.task.create({
                         data: {
                             ...task,
-                            id: undefined,
                             remindTime: date
                         }
                     });
